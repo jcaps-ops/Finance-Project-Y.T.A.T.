@@ -15,4 +15,3 @@ def piegraph(InputCats,inputexpences):
         # show plot
         matplotlib.pyplot.show()
 
-piegraph(["Test1","Test2","Test3"],[100,120,300])
