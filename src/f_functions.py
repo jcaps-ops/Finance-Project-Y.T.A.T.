@@ -71,5 +71,26 @@ def additem():
         saveamount = input("How much do you need to save?\n")
         saveamount = gummysint(saveamount)
     
-    todaysday = datetime.datetime.now().day
+    todaysday = datetime.datetime.now()
 
+def remove(user):
+    print("Is this an:\n1. Income\n2. Saving\n3. Expense")
+    choice = inputchecker(3)
+    match choice:
+        case 1:
+            entrytype = "income"
+        case 2:
+            entrytype = "saving"
+        case 3: 
+            entrytype = "expense"
+
+    itemname = input("What is the name of this item:\n")
+
+    if entrytype == "income":
+        user.income.pop(itemname)
+    elif entrytype == "saving":
+        user.saving.pop(itemname)
+    elif entrytype == "expense":
+        user.expense.pop(itemname)
+    else:
+        print("That item likely does not exist :(")
