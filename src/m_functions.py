@@ -2,6 +2,10 @@
 import pandas as pd
 from helper import choiceInput, floatInput
 
+###TOOOO BEEE DONE!!!!!!  ADD INCOME OPTIONS TO THE CSV!!!  MAKE ADD ITEM WORK PROPERLY, MAKE VEIW ENTERIES WORK PROPERLY MAKE REMOVE ITEM WORK PROPERLY, IMPORT DATE INTEGRATION, ADDING AND REMOVING ITEMS, MAYBE DOING MORE WOKR ON SAVING
+
+
+
 ##Class Budget: (aggregate with currency, income, expenses, savings)
 class Budget:
 #init there will 
