@@ -1,19 +1,15 @@
 from helper import *
 from m_functions import *
 import bcrypt # pyright: ignore[reportMissingImports]
+import pandas as pd # pyright: ignore[reportMissingModuleSource, ModuleNotFoundError]
 
 def csv_to_dictionary(path):
     dictionary = csv_to_dict(path)
     return Budget(dictionary["income"], dictionary["expenses"], dictionary["savings"], dictionary["currency"])
 
 def dict_to_csv(budget, path):
-    dictionary = [{
-        "income": budget.income,
-        "expenses": budget.expenses,
-        "savings": budget.savings,
-        "currency": budget.current_currencies
-    }]
-    save_csv(dictionary, path)
+    df = pd.DataFrame({"income": budget.income, "expenses": budget.expenses, "savings": budget.savings, "currency": budget.current_currencies})
+    df.to_csv(path, sheet_name="", index=False)
 
 def pass_encoder(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()

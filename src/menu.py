@@ -23,16 +23,20 @@ def main():
                 writer.writerow([{}, {}, {}, {}])
         user = csv_to_dictionary(path)
         while True:
-            check = choice_input(["1", "2", "3", "4"], "Would you like to: \n1. View your entries \n2. Add an entry \n3. Delete an entry\n4. View statistics \n5. Log out \n> ")
+            check = choice_input(["1", "2", "3", "4", "5", "6"], "Would you like to: \n1. View your entries \n2. Add an entry \n3. Delete an entry\n4. View statistics \n5. Change your currency \n6. Log out \n> ")
             if check == "1":
                 view_entries(user)
             elif check == "2":
-                user.addItem()
+                user.additem(user)
             elif check == "3":
-                user.removeItem()
+                user.removeitem(user)
             elif check == "4":
                 choice = choice_input(["1", "2"], "Would you like to \n1. View a bar chart \n2. View a pie chart \n> ")
                 if choice == "1":
-                    bargraph(user.)
+                    bargraph(user.categories, user.expenses)
+                elif choice == "2":
+                    piegraph(user.categories, user.expenses)
             elif check == "5":
+                currchange(user)
+            else:
                 break
