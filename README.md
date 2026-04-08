@@ -12,15 +12,20 @@ This project was made for keeping track of finances
 ## Key Features
 
 - Keeps track of: 
-   - Finances
-   - Budgets
+   - Finances 
+      - Allows you to see your income and make savings goals
+   - Budgets 
+      - Allows for budgets to be created
    - Expenses
+      - Lets you keep track of expenses and other things
 - Creates graphs
+   - Can create visual representations of your finances
 
 ## Installation Instructions
 
-1. Install bcrypt
-2. Install matplotlib
+1. Install bcrypt (pip install bcrypt)
+2. Install matplotlib (pip install matplotlib)
+3. Install pandas (pip install pandas)
 
 ## Contributors
 
