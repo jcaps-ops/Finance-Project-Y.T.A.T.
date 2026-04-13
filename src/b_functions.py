@@ -1,11 +1,11 @@
 from helper import *
-from m_functions import *
+from F_M_functions import *
 import bcrypt # pyright: ignore[reportMissingImports]
 import pandas as pd # pyright: ignore[reportMissingModuleSource, ModuleNotFoundError]
 
 def csv_to_dictionary(path):
     dictionary = csv_to_dict(path)
-    return Budget(dictionary["income"], dictionary["expenses"], dictionary["savings"], dictionary["currency"])
+    return Budget(dictionary[0], dictionary[1], dictionary[2], dictionary[3])
 
 def dict_to_csv(budget, path):
     df = pd.DataFrame({"income": budget.income, "expenses": budget.expenses, "savings": budget.savings, "currency": budget.current_currencies})
@@ -109,13 +109,20 @@ def password():
             return password
 
 def user_creator(path):
-    dictionary = csv_to_dictionary(path)
+    try:
+        dictionary = csv_to_dictionary(path)
+    except:
+        dictionary = []
+
     while True:
         created = False
         name = input("What will your username be? ")
-        for i in dictionary:
-            if name == i["username"]:
-                created = True
+        if dictionary:
+            for i in dictionary:
+                if name == i["username"]:
+                    created = True
+        else:
+            created = False
         if created == False:
             break
         print("That username is already being used. ")
