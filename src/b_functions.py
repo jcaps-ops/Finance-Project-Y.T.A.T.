@@ -6,12 +6,13 @@ import pandas as pd # pyright: ignore[reportMissingModuleSource, ModuleNotFoundE
 def csv_to_dictionary(path):
     dictionary = csv_to_dict(path)
     if not dictionary:
-        return Budget([], [], [], "USD")
-    return Budget(dictionary["income"], dictionary["expenses"], dictionary["savings"], dictionary["currency"])
+        return Budget({}, {}, {}, "USD")
+    row = dictionary[0]
+    return Budget(row.get("income", {}), row.get("expenses", {}), row.get("savings", {}), row.get("currency", "USD"))
 
 def dict_to_csv(budget, path):
     df = pd.DataFrame({"income": budget.income, "expenses": budget.expenses, "savings": budget.savings, "currency": budget.current_currencies})
-    df.to_csv(path, sheet_name="", index=False)
+    df.to_csv(path, index=False)
 
 def pass_encoder(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
@@ -112,6 +113,8 @@ def password():
 
 def user_creator(path):
     dictionary = csv_to_dict(path)
+    if not dictionary:
+        dictionary = []
     while True:
         created = False
         name = input("What will your username be? ")
@@ -127,7 +130,7 @@ def user_creator(path):
     user_password = password()
     user_password = pass_encoder(user_password)
     dictionary.append({'username': name, 'password': user_password, 'logged in': 'True'})
-    save_csv(dictionary, path)
+    save_csv(data=dictionary, path=path)
     return name
 
 def user_sign_in(path):

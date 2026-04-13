@@ -19,8 +19,7 @@ def main():
             if not os.path.exists(path):
                 with open(path, mode = 'w') as file:
                     writer = csv.writer(file)
-                    writer.writerow(["name", "amount", "currency", "category"])
-                    writer.writerow([{}, {}, {}, {}])
+                    writer.writerow(["income", "expenses", "savings", "currency"])
         except Exception as e:
             print(f"You had a(n) {e} error. ")
         user = csv_to_dictionary(path)
@@ -42,3 +41,4 @@ def main():
                 user.currchange()
             else:
                 break
+            dict_to_csv(user, path)
