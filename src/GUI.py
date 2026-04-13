@@ -129,13 +129,17 @@ def Doc5():
     #This label is where we will display the diffrent enteries 
 
     
-
+def end_The_program():
+    dict_to_csv(root.user)
+    root.destroy
 
 #Here is the starting buttons
 root.btn = tk.Button(root, text="Sign up", command=Doc4)
 root.btn.place(relx=.5, rely=0.4, anchor="n")
-root.exiting = tk.Button(root, text="Exit program", command=root.destroy)
+root.exiting = tk.Button(root, text="Exit program", command=end_The_program)
 root.exiting.place(relx=.05, rely=0.05, anchor="n")
+
+
 
 root.user = csv_to_dictionary()
 
