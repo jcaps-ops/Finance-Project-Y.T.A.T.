@@ -1,2 +1,1 @@
-name,amount,currency,category
-{},{},{},{}
+amount,category,date,currency,name,amount_saved

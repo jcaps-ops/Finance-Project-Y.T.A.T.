@@ -1,4 +1,10 @@
-"currency", "conversion to USD", "conversion from USD"
-"USD", 1, 1
-"GBP", 1.34, 0.74
-"JPY", 0.0063, 158.42
+currency,conversion to USD,conversion from USD
+GBP,1.34,0.74
+CHF,1.27,0.79
+EUR,1.17,0.85
+USD,1,1
+CAD,0.72,1.38
+AUD,0.71,1.42
+SEK,0.11,9.23
+JPY,0.0063,158.42
+IRR,0.00000076,1316125
