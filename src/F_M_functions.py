@@ -11,11 +11,12 @@ class Budget:
 	#2: expenses
 	#3: Savings
 	#4: current currency
-    def __init__(self, income, expenses, savings, current_currencies):
+    def __init__(self, income, expenses, savings, budgets, current_currencies):
         self.incomes = income
         self.expenses = expenses
         self.savings = savings
         self.current_currencies = current_currencies
+        self.budgets = budgets
 
 	#addItem(self)
     def additem(self):
@@ -118,7 +119,28 @@ class Budget:
         else:
             print("Invalid choice. Please try again.")
 
-		
+    def viewtotals(self):
+        # Return a total of all the money in the selected category.
+        totalamount = []
+        totalsubtract = [0]
+
+        def viewexpenses(self):
+            for expense in self.expenses:
+                flipexpense = expense.amount * -1
+                totalamount.append(flipexpense)
+
+        def viewincomes(self):
+            for income in self.incomes:
+                totalamount.append(income.amount)
+
+        def viewall():
+            for income in self.incomes:
+                totalamount.append(income.amount)
+            for expense in self.expenses:
+                totalsubtract.append(expense.amount)
+        
+        total = sum(totalamount) - sum(totalsubtract)
+        return total
 
 #class MoneyItem: (parent of income, expenses, saving, composition of currency)
 class MoneyItem:
