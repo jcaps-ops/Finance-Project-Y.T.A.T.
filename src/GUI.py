@@ -2,7 +2,10 @@
 import tkinter as tk
 from tkinter import *
 from Functions_Edited_ForGUI import *
-import time
+from helper import *
+from b_functions import *
+from j_functions import *
+import os
 
 root = tk.Tk()
 
@@ -18,59 +21,6 @@ Entriescatagories=tk.StringVar()
 
 
 #Here is the concept is to make pre loaded and planed areas where we will load with the diffrent labels and buttons
-def Doc2():
-    btn.place_forget()
-    sign.place_forget()
-    root.singuplabel = tk.Label(root, text=f"This is where you would have signed up but that has not been added yet", bg="Light grey", font=("Times new roman", 14, "bold"))
-    root.singuplabel.place(relx=.5, rely=0, anchor="n")
-
-    root.name_entry = tk.Entry(root,textvariable = name_var, font=('calibre',10,'normal'))
-    root.name_entry.place(relx=0.55, rely=0.3, anchor="n")
-
-    root.name_label = tk.Label(root, text = 'Username', font=('calibre',10, 'bold'))
-    root.name_label.place(relx=0.45, rely=0.3, anchor="n")
-
-    root.passw_entry=tk.Entry(root, textvariable = passw_var, font = ('calibre',10,'normal'), show = '*')
-    root.passw_entry.place(relx=0.55, rely=0.4, anchor="n")
-
-    root.passw_label = tk.Label(root, text = 'Password', font = ('calibre',10,'bold'))
-    root.passw_label.place(relx=0.45, rely=0.4, anchor="n")
-
-    root.btn1 = tk.Button(root, text="Enter",command=signingup)
-    root.btn1.place(relx=.5, rely=0.7, anchor="n")
-def signingup():
-    root.singuplabel.place_forget()
-    root.SgUpLabel = tk.Label(root, text=f"", bg="Light grey", font=("Times new roman", 14, "bold"))
-    root.SgUpLabel.place(relx=.5, rely=0, anchor="n")
-
-    name=name_var.get()
-    password=passw_var.get()
-    GuiEdt_user_creator("docs/accounts.csv",name,password,root.SgUpLabel)
-    #What ever do to the document
-    Doc4()
-def Doc3():
-    
-    btn.place_forget()
-    sign.place_forget()
-    root.singuplabel = tk.Label(root, text=f"This is tempory text while we add the sign in function\n To go passed the username is Test1 and password is Test2", bg="Light grey", font=("Times new roman", 14, "bold"))
-    root.singuplabel.place(relx=.5, rely=0, anchor="n")
-
-    
-
-    root.name_entry = tk.Entry(root,textvariable = name_var, font=('calibre',10,'normal'))
-    root.name_entry.place(relx=0.55, rely=0.3, anchor="n")
-
-    root.name_label = tk.Label(root, text = 'Username', font=('calibre',10, 'bold'))
-    root.name_label.place(relx=0.45, rely=0.3, anchor="n")
-
-    root.passw_entry=tk.Entry(root, textvariable = passw_var, font = ('calibre',10,'normal'), show = '*')
-    root.passw_entry.place(relx=0.55, rely=0.4, anchor="n")
-
-    root.passw_label = tk.Label(root, text = 'Password', font = ('calibre',10,'bold'))
-    root.passw_label.place(relx=0.45, rely=0.4, anchor="n")
-
-    root.btn1 = tk.Button(root, text="Enter",command=submiting_password)
-    root.btn1.place(relx=.5, rely=0.7, anchor="n")
 def submiting_password():
     #Replace this with the sign in system that checks it
     root.bools = 0
@@ -87,24 +37,20 @@ def submiting_password():
         root.wrg_label.place(relx=0.5, rely=0.2, anchor="n")
 def Doc4():
     #Clearing
-    root.singuplabel.place_forget()
-    root.btn1.place_forget()
-    root.name_entry.place_forget()
-    root.name_label.place_forget()
-    root.passw_entry.place_forget()
-    root.passw_label.place_forget()
-    root.singuplabel.place_forget()
-    root.wrg_label.place_forget()
-
+    root.btn.place_forget()
     #Replacing
-    root.vent = tk.Button(root, text="View your entries", command=Doc5)
+    root.wrg_label = tk.Label(root, text = 'Incorrect password or username', font = ('calibre',10,'bold'))
+    root.wrg_label.place(relx=0.5, rely=0.2, anchor="n")
+    root.vent = tk.Button(root, text="View your entries", command=root.user.view_entries())
     root.vent.place(relx=.35, rely=0.4, anchor="n")
-    root.aent = tk.Button(root, text="Add an entry", command=Doc6)
+    root.aent = tk.Button(root, text="Add an entry", command=root.user.additem())
     root.aent.place(relx=.45, rely=0.4, anchor="n")
-    root.dent = tk.Button(root, text="Delete an entry", command=Doc7)
+    root.dent = tk.Button(root, text="Delete an entry", command=root.user.removeitem())
     root.dent.place(relx=.55, rely=0.4, anchor="n")
     root.sent = tk.Button(root, text="View a statistics", command=Doc8)
     root.sent.place(relx=.65, rely=0.4, anchor="n")
+    root.cent = tk.Button(root, text="Change a currency", command=root.user.currchange())
+    root.cent.place(relx=.65, rely=0.4, anchor="n")
     
 
 
@@ -114,9 +60,9 @@ def Doc8():
     root.dent.place_forget()
     root.sent.place_forget()
 
-    root.barbin = tk.Button(root, text="Bar Graph")
+    root.barbin = tk.Button(root, text="Bar Graph", command=bargraph(root.user.categories, root.user.expenses))
     root.barbin.place(relx=.35, rely=0.4, anchor="n")
-    root.piebin = tk.Button(root, text="Pie-chart graph")
+    root.piebin = tk.Button(root, text="Pie-chart graph", command=piegraph(root.user.categories, root.user.expenses))
     root.piebin.place(relx=.45, rely=0.4, anchor="n")
     root.Exitbin = tk.Button(root, text="Go back", command=fixstatistcs)
     root.Exitbin.place(relx=.55, rely=0.4, anchor="n")
@@ -186,14 +132,12 @@ def Doc5():
 
 
 #Here is the starting buttons
-btn = tk.Button(root, text="Sign up", command=Doc2)
-btn.place(relx=.53, rely=0.4, anchor="n")
-root.wrg_label = tk.Label(root, text = '', font = ('calibre',10,'bold'))
-sign = tk.Button(root, text="Sign in", command=Doc3)
-sign.place(relx=.47, rely=0.4, anchor="n")
+root.btn = tk.Button(root, text="Sign up", command=Doc4)
+root.btn.place(relx=.5, rely=0.4, anchor="n")
 root.exiting = tk.Button(root, text="Exit program", command=root.destroy)
 root.exiting.place(relx=.05, rely=0.05, anchor="n")
 
+root.user = csv_to_dictionary()
 
 
 
