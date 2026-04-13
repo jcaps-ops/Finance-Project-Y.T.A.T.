@@ -119,28 +119,33 @@ class Budget:
         else:
             print("Invalid choice. Please try again.")
 
-    def viewtotals(self):
-        # Return a total of all the money in the selected category.
-        totalamount = []
-        totalsubtract = [0]
+    class ViewTotals:
+        def __init__(self, expenses, incomes):
+            self.expenses = expenses
+            self.incomes = incomes
 
-        def viewexpenses(self):
+        # Return a total of all the money in the selected category.
+
+        def viewexpenses(self, totalamount=[]):
             for expense in self.expenses:
                 flipexpense = expense.amount * -1
                 totalamount.append(flipexpense)
 
-        def viewincomes(self):
+            return sum(totalamount)
+
+        def viewincomes(self, totalamount=[]):
             for income in self.incomes:
                 totalamount.append(income.amount)
+            
+            return sum(totalamount)
 
-        def viewall():
+        def viewall(self, totalamount=[], totalsubtract=[0]):
             for income in self.incomes:
                 totalamount.append(income.amount)
             for expense in self.expenses:
                 totalsubtract.append(expense.amount)
-        
-        total = sum(totalamount) - sum(totalsubtract)
-        return total
+            
+            return sum(totalamount) + sum(totalsubtract)
 
 #class MoneyItem: (parent of income, expenses, saving, composition of currency)
 class MoneyItem:
@@ -296,3 +301,16 @@ class Saving(MoneyItem):
         
         return f"{self.name} : Goal : {self.amount} | Amount Saved : {self.amount_saved} | Amount left to save : {self.amount_left} "
 # f“Saving: You have saved {self.amount_saved} for Your goal,{self.name}, to raise {self.amount}” 
+
+class BudgetEntry(MoneyItem):
+
+    def __str__(self):
+        return f"{self.name} | Your budget for this is {self.amount} {self.currency} | Category : {self.category} | Date : {self.date}"
+
+    def budgetcheck(self, amount):
+        if self.amount > amount:
+            print(f"You are within your budget for {self.name}! You have {self.amount - amount} {self.currency} left to spend on this category!")
+        elif self.amount == amount:
+            print(f"You have exactly met your budget for {self.name}. Cutting it close!")
+        else:
+            print(f"You have exceeded your budget for {self.name} by {amount - self.amount} {self.currency}!")
