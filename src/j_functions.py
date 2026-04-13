@@ -14,4 +14,3 @@ def piegraph(InputCats,inputexpences):
 
         # show plot
         matplotlib.pyplot.show()
-
