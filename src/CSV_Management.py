@@ -1,10 +1,9 @@
-from helper import *
 import csv
 
 #For changing CSV files to lists of dictionaries. 
 def csv_to_dict(path):
-    try:
-        with open(path, mode = 'r') as file:
+    try:#Attempted to 
+        with open(path, mode = 'r') as file:#Open the file
             reader = csv.reader(file)
             header = next(reader)
             finished = []
@@ -17,7 +16,7 @@ def csv_to_dict(path):
                     current_line[column] = line[i]
                     if line[i].isdigit(): current_line[column] = int(line[i])
                     i += 1
-                finished.append(current_line)
+                finished.append(current_line)#And get all the info in it
     except FileNotFoundError: print("The file was not found. ")
     except Exception as e: print(f"You had a(n) {e} error. ")
     else: return finished
@@ -25,9 +24,9 @@ def csv_to_dict(path):
 
 #For saving lists with dictionaries to CSV files. 
 def save_csv(path, data):
-    try:
+    try:# attempt to 
         if not data: return
-        with open(path, mode="w", newline="") as file:
+        with open(path, mode="w", newline="") as file:#open the file
             cleaned_data = []
             for row in data:
                 new_row = {}
@@ -37,7 +36,7 @@ def save_csv(path, data):
                 cleaned_data.append(new_row)
             header = cleaned_data[0].keys()
             writer = csv.DictWriter(file, fieldnames=header)
-            writer.writeheader()
+            writer.writeheader()# and write it into the csv
             writer.writerows(cleaned_data)
     except FileNotFoundError: print("The file was not found. ")
     except Exception as e: print(f"You had a(n) {e} error. ")
