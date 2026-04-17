@@ -117,7 +117,7 @@ class Budget:
             saveamount = input("How much do you need to save?\n")
             saveamount = gummysint(saveamount)
         
-        todaysday = datetime.datetime.now()
+        todaysday = datetime.datetime.now().replace(second=0, microsecond=0)
 
 
         # makes the object for the entry
@@ -146,30 +146,108 @@ class Budget:
             case 4:
                 entrytype = "budget"
 
-        itemname = input("What is the name of this item:\n")
+        while True:
+            if entrytype == "income":
+                sending_type = 1
+            elif entrytype == "expense":
+                sending_type = 2
+            elif entrytype == "saving":
+                sending_type = 3
+            elif entrytype == "budget":
+                sending_type = 4
 
-        # checks i the item exists in the entry type, and removes it from the dictionary of items.
-        if entrytype == "income":
-            self.incomes.pop(itemname)
-            self.categories.remove(self.incomes[itemname]["category"].category)
-        elif entrytype == "saving":
-            self.savings.pop(itemname)
-            self.categories.remove(self.savings[itemname]["category"].category)
-        elif entrytype == "expense":
-            self.expenses.pop(itemname)
-            self.categories.remove(self.expenses[itemname]["category"].category)
-        elif entrytype == "budget":
-            self.budgets.pop(itemname)
-            self.categories.remove(self.budgets[itemname]["category"].category)
-        else:
-            print("That item likely does not exist :(")
+            # checks i the item exists in the entry type, and removes it from the dictionary of items.
+            if entrytype == "income":
+                self.incomes.pop(itemname)
+                self.categories.remove(self.incomes[itemname]["category"].category)
+            elif entrytype == "saving":
+                self.savings.pop(itemname)
+                self.categories.remove(self.savings[itemname]["category"].category)
+            elif entrytype == "expense":
+                self.expenses.pop(itemname)
+                self.categories.remove(self.expenses[itemname]["category"].category)
+            elif entrytype == "budget":
+                self.budgets.pop(itemname)
+                self.categories.remove(self.budgets[itemname]["category"].category)
+            else:
+                print("That item likely does not exist :(")
+                self.view_entries(type=sending_type)
 
-    def view_entries(self):
+                itemname = input("What is the name of this item:\n")
+
+                if entrytype == "income":
+                    if itemname in self.incomes.keys():
+                        current_index = 0
+                        for item in self.categories:
+                            if item == self.incomes[itemname].category:
+                                self.categories.pop(current_index)
+                                break
+                            else:
+                                current_index += 1
+
+                        self.incomes.pop(itemname)
+                        break
+                    else:
+                        print("It seems that this entry doesn't exist! Maybe you made a typo?")
+                        continue
+                elif entrytype == "saving":
+                    if itemname in self.savings.keys():
+                        current_index = 0
+                        for item in self.categories:
+                            if item == self.savings[itemname].category:
+                                self.categories.pop(current_index)
+                                break
+                            else:
+                                current_index += 1
+
+                        self.savings.pop(itemname)
+                        break
+                    else:
+                        print("It seems that this entry doesn't exist! Maybe you made a typo?")
+                        continue
+                elif entrytype == "expense":
+                    if itemname in self.expenses.keys():
+                        current_index = 0
+                        for item in self.categories:
+                            if item == self.expenses[itemname].category:
+                                self.categories.pop(current_index)
+                                break
+                            else:
+                                current_index += 1
+
+                        self.expenses.pop(itemname)
+                        break
+                    else:
+                        print("It seems that this entry doesn't exist! Maybe you made a typo?")
+                        continue
+                elif entrytype == "budget":
+                    if itemname in self.budgets.keys():
+                        current_index = 0
+                        for item in self.categories:
+                            if item == self.budgets[itemname].category:
+                                self.categories.pop(current_index)
+                                break
+                            else:
+                                current_index += 1
+
+                        self.budgets.pop(itemname)
+                        break
+                    else:
+                        print("It seems that this entry doesn't exist! Maybe you made a typo?")
+                        continue
+                else:
+                    print("Error code 1-rmvitm: it is supposed to be impossible to get here, but it seems that you did! Please try again and if this happens again, contact the developers with the error code so we can fix this issue!")
+
+    def view_entries(self, type=None):
         # Used to view the selected kind of entry
-        print("What kind of entry would you like to view?\n")
-        print("1. Income\n2. Expenses\n3. Savings\n4.Budgets\n5. All Entries")
+        if type == None:
+            print("What kind of entry would you like to view?\n")
+            print("1. Income\n2. Expenses\n3. Savings\n4. Budgets\n5. All Entries")
 
-        choice = inputchecker(5)
+            choice = inputchecker(5)
+
+        else: 
+            choice = type
 
 
         # Checks for each kind of entry, and uses that class/object list to print its unique info (cannot make shorter because it uses class attributes)
@@ -195,7 +273,7 @@ class Budget:
             budgetskeys = self.budgets.keys()
             for budget in budgetskeys:
                 print(self.budgets[budget])
-                self.ViewTotals(expenses=self.expenses, incomes=self.incomes)
+            print(f"\n Your final budget, all income coming in vs out is: {self.viewall()}")
             if not budgetskeys:
                 print("You don't have any (more) budgets yet!")
         elif choice == 5:
@@ -227,34 +305,30 @@ class Budget:
         else:
             print("Invalid choice. Please try again.")
 
-    class ViewTotals:
-        # allows for the user to view totals for expenses and incomes
-        def __init__(self, expenses, incomes):
-            self.expenses = expenses
-            self.incomes = incomes
+    
 
         # Return a total of all the money in the selected category.
 
-        def viewexpenses(self, totalamount=[]):
-            for expense in self.expenses:
-                flipexpense = expense.amount * -1
-                totalamount.append(flipexpense)
+    def viewexpenses(self, totalamount=[]):
+        for expense in self.expenses:
+            flipexpense = expense.amount * -1
+            totalamount.append(flipexpense)
 
-            return sum(totalamount)
+        return sum(totalamount)
 
-        def viewincomes(self, totalamount=[]):
-            for income in self.incomes:
-                totalamount.append(income.amount)
-            
-            return sum(totalamount)
+    def viewincomes(self, totalamount=[]):
+        for income in self.incomes:
+            totalamount.append(income.amount)
+        
+        return sum(totalamount)
 
-        def viewall(self, totalamount=[], totalsubtract=[0]):
-            for income in self.incomes:
-                totalamount.append(income.amount)
-            for expense in self.expenses:
-                totalsubtract.append(expense.amount)
-            
-            return sum(totalamount) + sum(totalsubtract)
+    def viewall(self, totalamount=[], totalsubtract=[0]):
+        for income in self.incomes:
+            totalamount.append(income.amount)
+        for expense in self.expenses:
+            totalsubtract.append(expense.amount)
+        
+        return sum(totalamount) - sum(totalsubtract)
 
 #class MoneyItem: (parent of income, expenses, saving, composition of currency)
 class MoneyItem:
@@ -313,11 +387,6 @@ class MoneyItem:
         print(f"Conversion Rate: {df.loc[df["currency"] == new_currency, "conversion from USD"].iat[0]}")
         print(f"New Amount {self.amount:.2f} in {new_currency}")
         self.currency = new_currency
-
-
-                
-
-	
 
 """#class Currency: (aggregate of budget, child of money item)
 class Currency: 
